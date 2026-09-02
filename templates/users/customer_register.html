@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}
+    Sign Up
+{% endblock %}
+{% block content %}
+    <div class="container mt-5 d-flex justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header text-center text-primary">
+                    <h4>Customer Sign Up</h4>
+                </div>
+
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <!-- Full Name -->
+                        <div class="mb-3">
+                            <label class="form-label d-block">{{ form.phone.label }}:</label>
+                            {{ form.phone }}
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label class="form-label d-block">{{ form.password1.label }}:</label>
+                            {{ form.password1 }}
+                            <ul class="form-text mt-2" id="passwordCriteria">
+
+                            </ul>
+                        </div>
+
+                        <!-- Password Confirm-->
+                        <div class="mb-3">
+                            <label class="form-label d-block">{{ form.password2.label }}:</label>
+                            {{ form.password2 }}
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success w-50">Create Account</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}
+    My Bookings
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2>My Bookings</h2>
+        {% for session in sessions %}
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>
+                        Checkout on {{ session.created_at|date:"d M Y,H:i" }}
+                        ({{ session.payment_method }})
+                        <br>
+                        Address: {{ session.bookings.first.address.house_no }}, {{ session.bookings.first.address.area }}, {{ session.bookings.first.address.pin_code }},
+                        {{ session.bookings.first.address.landmark|default:"Landmark - " }}, {{ session.bookings.first.address.town_city }}, {{ session.bookings.first.address.state }}
+                    </span>
+                    <span>
+                        {% if session.status == 'Pending' %}
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        {% elif session.status == 'Confirmed' %}
+                            <span class="badge bg-success">Confirmed</span>
+                        {% elif session.status == 'Completed' %}
+                            <span class="badge bg-primary">Completed</span>
+                        {% else %}
+                            <span class="badge bg-secondary">{{ session.status }}</span>
+                        {% endif %}
+                    </span>
+                </div>
+
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Category -> Subcategory</th>
+<!--                                <th>Address</th>-->
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for booking in session.bookings.all %}
+                                <tr>
+                                    <td>{{ booking.service.name }}</td>
+                                    <td>{{ booking.service.sub_category.category.name }} -> {{ booking.service.sub_category.name }}</td>
+<!--                                    <td>{{ booking.address.house_no }}, {{ booking.address.area }}, {{ booking.address.pin_code }},-->
+<!--                                        {{ booking.address.landmark }}, {{ booking.address.town_city }}, {{ booking.address.state }}</td>-->
+                                    <td>{{ booking.price|floatformat:2 }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2" class="text-end"><strong>Total:</strong></td>
+                                <td><strong>₹{{ session.total|floatformat:2 }}</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        {% empty %}
+        <p class="text-center">No bookings yet.</p>
+        {% endfor %}
+
+        {% if sessions %}
+            <div class="text-end mt-3">
+                <h5>Grand Total:₹{{ total_amount|floatformat:2 }}</h5>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

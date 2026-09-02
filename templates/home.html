@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+    <h1>Welcome to service Booking Platform</h1>
+    <div class="container">
+        <h2 class="mb-4">Categories</h2>
+        <ul class="list-group">
+            <!-- Main Category Section Starts -->
+            {% for category in categories %}
+            <li class="list-group-item d-flex align-items-center">
+                {% if category.image %}
+                    <a href="#" class="me-3" data-bs-toggle="modal" data-bs-target="#categoryModal{{ category.id }}">
+                        <img src="{{ category.image }}" class="rounded-circle" width="40" height="40" alt="{{ category.name }}">
+                    </a>
+                {% endif %}
+                <a href="#" class="flex-grow-1 text-decoration-none" data-bs-toggle="modal" data-bs-target="#categoryModal{{ category.id }}">
+                    {{ category.name }}
+                </a>
+            </li>
+            <!-- Main Category Section Ends -->
+
+            <!-- Popup Modal for Subcategories Starts -->
+            <div class="modal fade" id="categoryModal{{ category.id }}" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">{{ category.name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+                  <div class="modal-body">
+                    <ul class="list-group">
+                      {% for sub in category.sub_category.all %}
+                        <li class="list-group-item d-flex align-items-center">
+                          {% if sub.image %}
+                            <img src="{{ sub.image }}" class="rounded-circle me-3" width="30" height="30" alt="{{ sub.name }}">
+                          {% endif %}
+                          <a href="{% url 'subcategory_detail' sub.id %}" class="text-decoration-none">
+                            {{ sub.name }}
+                          </a>
+                        </li>
+                      {% empty %}
+                        <li class="list-group-item text-muted">No subcategories available</li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            <!-- Popup Modal for Subcategories Ends-->
+        </ul>
+    </div>
+{% endblock %}

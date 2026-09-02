@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ subcategory.name }} Services
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="mb-4">{{ subcategory.name }}-: Services</h2>
+        {% for service in services %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    {% if service.image %}
+                        <div class="col-md-4">
+                            <img src="{{ service.image }}" class="img-fluid rounded-start" alt="{{ service.name }}">
+                        </div>
+                    {% endif %}
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ service.name }}</h5>
+                            <p><strong>Price:</strong> ₹{{ service.price }}</p>
+                            {% if service.rating %}
+                                <p><strong>Rating:</strong> {{ service.rating }}/5</p>
+                            {% endif %}
+                            <p class="card-text">{{ service.description }}</p>
+
+                            {% if user.is_authenticated %}
+                                {% if service.id in cart_service_ids %}
+                                    <button class="btn btn-secondary" disabled>Added</button>
+                                {% else %}
+                                    <a href="{% url 'add_to_cart' service.id %}" class="btn btn-primary">Add to Cart</a>
+                                {% endif %}
+                            {% else %}
+                                <a href="#"
+                                   onclick="alert('Please login first'); return false;"
+                                   class="btn btn-primary">
+                                    Add to cart
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No services available for this subcategory.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

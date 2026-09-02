@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}
+    Checkout
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2>Checkout</h2>
+
+        <!-- Address Dropdown -->
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="address">Select Address:</label>
+                <select name="address" id="address" class="form-select" required>
+                    {% for addr in addresses %}
+                        <option value="{{ addr.id}}">
+                            {{ addr.house_no }}, {{ addr.area }}, {{ addr.pin_code }}, {{ addr.landmark|default:"Landmark - " }}, {{ addr.town_city }}, {{ addr.state }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Payment Method -->
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Payment Method</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="radio" name="payment_method" value="Cash" required></td>
+                        <td>Pay Later Cash</td>
+                        <td>Pay in cash when service is delivered</td>
+                    </tr>
+                    <tr>
+                        <td><input type="radio" name="payment_method" value="Online" required></td>
+                        <td>Pay Later Online</td>
+                        <td>Pay in Online when service is delivered</td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-success">Confirm Booking</button>
+        </form>
+    </div>
+{% endblock %}
