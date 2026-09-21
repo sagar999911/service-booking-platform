@@ -8,9 +8,31 @@ The platform allows customers to discover services, add services to a cart, mana
 
 ---
 
-## 🚀 Live Demo
+## AWS Deployment Architecture
 
-🔗 Coming Soon — AWS Deployment in Progress
+The application is deployed on AWS using:
+
+- Amazon EC2 - Django application server
+- Nginx - Reverse proxy
+- Gunicorn - WSGI application server
+- Amazon RDS PostgreSQL - Production database
+- AWS Systems Manager - Remote EC2 management and deployment
+- IAM - Access control
+- GitHub Actions - CI/CD
+- GitHub OIDC - Secure GitHub-to-AWS authentication
+
+### CI/CD Flow
+
+Local development
+→ GitHub
+→ GitHub Actions
+→ GitHub OIDC
+→ AWS IAM
+→ AWS Systems Manager
+→ EC2
+→ deploy.sh
+→ Gunicorn
+→ Nginx
 
 ---
 
