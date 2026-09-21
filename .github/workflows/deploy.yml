@@ -32,7 +32,7 @@ jobs:
             --instance-ids "$INSTANCE_ID" \
             --document-name "AWS-RunShellScript" \
             --comment "Deploy Service Booking Platform" \
-            --parameters 'commands=["cd /home/ubuntu/service-booking-platform && ./deploy.sh"]' \
+            --parameters 'commands=["sudo -u ubuntu -H bash -lc \"cd /home/ubuntu/service-booking-platform && ./deploy.sh\""]' \
             --query "Command.CommandId" \
             --output text)
 
